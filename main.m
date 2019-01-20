@@ -28,8 +28,6 @@ if strcmp(Dataset,'BlogCatalog')
     Ortho = 1; % ortho is whether orthogonalization the projection matrix
     alpha = [10,100,0.1,1,0.2]; % alpha is the weights for different order structure information
     seed = 0; % seed is the seed of random for generate the projection matrix
-    %delta1 = 2; % weight of network information for constructing test representation H2
-    %delta2 = 1; % weight of node attribute information for constructing test representation H2
     topk = 50; % topk of node attribute matrix
 elseif strcmp(Dataset,'Flickr')
     load('Flickr.mat')
@@ -38,12 +36,8 @@ elseif strcmp(Dataset,'Flickr')
     beta2 = 0.51; % weight of network attribute information for embedding
     Ortho = 1; % ortho  is whether orthogonalization the projection matrix
     alpha = [0,1,10,1,1.2]; % alpha is the weights for different order structure information
-    
-    
     seed = 0; % seed is the seed of random for generate the projection matrix
-%     delta1 = 2.1; % weight of network information for constructing test representation H2
-%     delta2 = 1; % weight of node attribute information for constructing test representation H2
-    topk = 100; % topk of node attribute matrix
+    topk = 1000; % topk of node attribute matrix
 end
 
 d = 512; % the dimension of the embedding representation
@@ -63,15 +57,6 @@ Y=Y*1;
 Indices = randi(20,n,1); % 5-fold cross-validation indices
 Group1 = find(Indices <= 16); % 1 for 1/16, 2 for 1/8, 4 for 1/4, 16 for 100% of training group
 Group2 = find(Indices >= 17); % test group, test each fold in turns
-%% Training group
-G1 = sparse(W(Group1,Group1)); % network of nodes in the training group
-A1 = sparse(A(Group1,:)); % node attributes of nodes in the training group
-Y1 = sparse(Y(Group1,:)); % labels of nodes in the training group
-%% Test group
-A2 = sparse(A(Group2,:)); % node attributes of nodes in the test group
-GC1 = sparse(W(Group1,:)); % For constructing test representation H2
-GC2 = sparse(W(Group2,:)); % For constructing test representation H2
-G2 = sparse(W(Group2,Group2));
 
 %% Unsupervised Attributed Network Embedding (LANE w/o Label)
 disp('Unsupervised Attributed Network Embedding (Random Projection):')

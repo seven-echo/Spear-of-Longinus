@@ -20,9 +20,8 @@ W_tran = Net;
 U_list = RandNE_Projection(W_tran,q,d,Ortho,seed);
 U_S = RandNE_Combine(U_list,alpha);
 R = cell2mat(U_list(1));
-% 
 
-% calculate attribute similarity matrix U_A -------------------
+% calculate attribute similarity matrix U_A
 A_T = Attri';
 A_T = bsxfun(@rdivide, A_T, sum(A_T.^2).^.5); % Normalize
 S_A = A_T'*A_T; % attritute cosine similarity matrix
@@ -36,7 +35,6 @@ end
 
 A_tran = sparse_S_A;
 U_A = A_tran * R;
-% -----------------------U_A-----------------------------------
 
 % Obtain mixture embedding
 U = beta1*(U_S)+beta2*(U_A);
